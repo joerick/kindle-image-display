@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+
+set -o errexit
+
+git subtree push --prefix . heroku master
