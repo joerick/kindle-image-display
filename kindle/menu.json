@@ -1,0 +1,14 @@
+{
+    "items": [
+        {
+            "name": "Grisedale Pike",
+            "items" : [
+                {
+                    "name": "Start",
+                    "priority": 0,
+                    "action": "./init-weather.sh"
+                }
+            ]
+        }
+    ]
+}
