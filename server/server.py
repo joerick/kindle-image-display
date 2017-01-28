@@ -64,7 +64,50 @@ def kindle_image():
 
     image.save(image_data, format='png')
     image_data.seek(0)
-    return image_data.read(), 200, {'content-type': 'image/png', 'refresh': 30}
+    return (image_data.read(), 200, {
+        'content-type': 'image/png',
+        'refresh': 30,
+        'cache-control': 'no-cache'
+    })
+
+@app.route('/nook')
+def nook_page():
+    page = '''
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      min-height: 100%;
+    }
+    .image {
+      position: fixed;
+      left: 0; right: 0; top: 0; bottom: 0;
+      background-size: contain;
+      background-image: url(/kindleimage);
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body>
+  <div id="image" class="image"></div>
+  <script>
+    function refresh() {
+      var timestamp = Math.floor(Date.now() / 1000);
+      var imageUrl = '/kindleimage' + '?' + timestamp;
+      var imageDiv = document.getElementById('image');
+      imageDiv.style.backgroundImage = 'url('+imageUrl+')';
+    }
+    setInterval(refresh, 10 * 1000);
+  </script>
+</body>
+</html>
+'''
+    return (page, 200, {'content-type': 'text/html'})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
