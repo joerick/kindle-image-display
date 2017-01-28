@@ -106,6 +106,7 @@ def nook_page():
       imageDiv.offsetHeight; // no need to store this anywhere, the reference is enough
       imageDiv.style.display='';
     }
+    refresh();
     setInterval(refresh, 4 * 60 * 60 * 1000);
   </script>
   <style></style>
