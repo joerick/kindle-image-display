@@ -64,7 +64,7 @@ def kindle_image():
 
     image.save(image_data, format='png')
     image_data.seek(0)
-    return image_data.read(), 200, {'content-type': 'image/png'}
+    return image_data.read(), 200, {'content-type': 'image/png', 'refresh': 30}
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
