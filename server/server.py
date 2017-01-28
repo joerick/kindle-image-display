@@ -66,7 +66,6 @@ def kindle_image():
     image_data.seek(0)
     return (image_data.read(), 200, {
         'content-type': 'image/png',
-        'refresh': 30,
         'cache-control': 'no-cache'
     })
 
@@ -75,6 +74,7 @@ def nook_page():
     page = '''
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     * {
       margin: 0;
@@ -84,10 +84,9 @@ def nook_page():
       min-height: 100%;
     }
     .image {
-      position: fixed;
-      left: 0; right: 0; top: 0; bottom: 0;
+      width: 100%;
+      height: 100%;
       background-size: contain;
-      background-image: url(/kindleimage);
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -101,9 +100,15 @@ def nook_page():
       var imageUrl = '/kindleimage' + '?' + timestamp;
       var imageDiv = document.getElementById('image');
       imageDiv.style.backgroundImage = 'url('+imageUrl+')';
+
+      // hack to force repaint
+      imageDiv.style.display='none';
+      imageDiv.offsetHeight; // no need to store this anywhere, the reference is enough
+      imageDiv.style.display='';
     }
     setInterval(refresh, 10 * 1000);
   </script>
+  <style></style>
 </body>
 </html>
 '''
