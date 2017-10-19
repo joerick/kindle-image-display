@@ -45,8 +45,9 @@ def kindle_image():
     draw = ImageDraw.Draw(image)
     small_font = ImageFont.truetype('Garamond.otf', 10)
 
-    text = str(datetime.now(timezone('Europe/London')).strftime('%x %X'))
-    draw.multiline_text((10, 10), text, font=small_font, spacing=20)
+    # draw timestamp
+    # text = str(datetime.now(timezone('Europe/London')).strftime('%x %X'))
+    # draw.multiline_text((10, 10), text, font=small_font, spacing=20)
 
     tweet = get_latest_tweet()
 
@@ -108,6 +109,52 @@ def nook_page():
     }
     refresh();
     setInterval(refresh, 4 * 60 * 60 * 1000);
+  </script>
+  <style></style>
+</body>
+</html>
+'''
+    return (page, 200, {'content-type': 'text/html'})
+
+@app.route('/nookvideo')
+def nook_video_page():
+    page = '''
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      min-height: 100%;
+    }
+    .image {
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body>
+  <div id="image" class="image"></div>
+  <script>
+    function refresh() {
+      var timestamp = Math.floor(Date.now() / 1000);
+      var imageUrl = '/kindleimage' + '?' + timestamp;
+      var imageDiv = document.getElementById('image');
+      imageDiv.style.backgroundImage = 'url('+imageUrl+')';
+
+      // hack to force repaint
+      imageDiv.style.display='none';
+      imageDiv.offsetHeight; // no need to store this anywhere, the reference is enough
+      imageDiv.style.display='';
+    }
+    refresh();
+    setInterval(refresh, 2 * 60 * 60 * 1000);
   </script>
   <style></style>
 </body>
