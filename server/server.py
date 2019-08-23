@@ -21,13 +21,13 @@ def draw_text_centered(draw, center, text, font, spacing=0):
     )
     draw.multiline_text(topleft, text, font=font, align='center', spacing=spacing)
 
-consumer_key = "uoNshE7yi6VMjtkQEGmrmbDtL"
-consumer_secret = "JGnfE8M6wQTEuwGzqR80CnLP1h90IQEXSMXDXy3WKZViRMAoi0"
+consumer_key = os.environ.get("TWITTER_CONSUMER_KEY", "")
+consumer_secret = os.environ.get("TWITTER_CONSUMER_SECRET", "")
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
-access_token = "4459955302-6AoQQfoBasGg2JmylCYCjBTSVFOyhqfQE5xqF1l"
-access_token_secret = "nFTSXhPZCyXjAQcZ4o6xIqHdLCBmRfbJQwfsDWdDyMzYA"
+access_token = os.environ.get("TWITTER_TOKEN", "")
+access_token_secret = os.environ.get("TWITTER_TOKEN_SECRET", "")
 auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
